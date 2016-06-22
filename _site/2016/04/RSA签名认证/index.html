@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>RSA签名认证</title>
+  <meta name="description" content="RSA签名认证">
+  <meta name="author" content="Wei Wang">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="RSA签名认证">
+  <meta name="twitter:description" content="RSA签名认证">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="RSA签名认证">
+  <meta property="og:description" content="RSA签名认证">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+  <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://vno.onevcat.com/2016/04/RSA%E7%AD%BE%E5%90%8D%E8%AE%A4%E8%AF%81/">
+  <link rel="alternate" type="application/rss+xml" title="Blank_佐毅" href="http://vno.onevcat.com/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 Blank_佐毅 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="Blank_佐毅 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Blank_佐毅" class="blog-button">Blank_佐毅</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">上海方创金融信息服务股份有限公司 iOS高级开发工程师</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">嗨，我是姚亚杰(@Blank_佐毅)，一名来自中国的 iOS 开发者 。现居上海。         个性签名：认知这个世界，找到自我的定位。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="Visit blog" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="" target="_blank" title="My Projects">关于</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+    <a href="http://weibo.com/LoveProgramming" title="@LoveProgramming 的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/summerHearts" title="@summerHearts 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+
+  
+
+  <!-- RSS -->
+  <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+  
+  <!-- Email -->
+  <li class="navigation__item">
+    <a href="mailto:summerHearts@163.com" title="Contact me">
+      <i class='social fa fa-envelope'></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-disabled"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-04-21 21:38:32 +0800" itemprop="datePublished" class="post-meta__date date">2016-04-21</time> &#8226; <span class="post-meta__tags tags">iOS开发经验总结</span>
+    </div>
+    <h1 class="post-title">RSA签名认证</h1>
+  </header>
+
+  <section class="post">
+    <p>RSA签名认证</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/325120-cac9c704a97d438f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<p><a href="http://open.163.com/movie/2012/10/1/C/M99VIFJA6_M9EDSHM1C.html">RSA可汗学院第一章 RSA加密</a></p>
+
+<p><a href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html">RSA加密原理第一章</a></p>
+
+<p><a href="http://www.ruanyifeng.com/blog/2013/07/rsa_algorithm_part_two.html">RSA加密原理第二章</a></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>RSA:
+1. 加签：用私钥加签，对方用公钥验签（防抵赖，私钥只有自己有！）
+2. 加密：用对方公钥加密，对方用对应私钥解密（加密）
+
+ RSA使用“密钥对”对数据进行加密解密，在加密解密前需要先生存公钥（Public Key）和私钥（Private Key）。
+ 公钥(Public key): 用于加密数据. 用于公开, 一般存放在数据提供方, 例如iOS客户端。
+ 私钥(Private key): 用于解密数据. 必须保密, 私钥泄露会造成安全问题。
+</code></pre>
+</div>
+
+<p>如何生成RSA公钥私钥</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/325120-a3f8b4c113cabe50.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<h4 id="certification-require-file">生成certification require file</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> openssl req -new -key private_key.pem -out rsaCertReq.csr
+</code></pre>
+</div>
+
+<h4 id="csrca-">CSR文件必须有CA的签名才可形成证书 并指定过期时间</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>openssl x509 -req -days 365 -in rsaCertReq.csr -signkey private_key.pem -out     rsaCert.crt
+</code></pre>
+</div>
+
+<h4 id="ios">生成公钥供iOS使用</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>openssl x509 -outform der -in rsaCert.crt -out public_key.der
+</code></pre>
+</div>
+
+<h4 id="pkcs12caios">生成pkcs12文件，但不包含CA证书.生成私钥供iOS使用</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>openssl pkcs12 -export -out private_key.p12 -inkey private_key.pem -in rsaCert.crt
+</code></pre>
+</div>
+
+<h4 id="pemjava">生成pem结尾的公钥供Java使用</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>openssl rsa -in private_key.pem -out rsa_public_key.pem -pubout
+</code></pre>
+</div>
+
+<h4 id="pemjava-1">生成pem结尾的私钥供Java使用</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>openssl pkcs8 -topk8 -in private_key.pem -out pkcs8_private_key.pem -nocrypt
+</code></pre>
+</div>
+
+<h4 id="rsa">RSA签名</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)RSA{
+_rsa = [XYRSACryption new];
+// 加载公钥
+NSString *derPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"public_key" ofType:@"der"];
+[_rsa loadPublicKeyFromFile:derPath];
+
+// 加载私钥
+NSString *p12Path = [[NSBundle bundleForClass:[self class]] pathForResource:@"private_key" ofType:@"p12"];
+[_rsa loadPrivateKeyFromFile:p12Path password:privateKey];
+
+NSString *enStr = @"哈哈哈哈哈哈哈哈哈哈哈哈哈！";
+
+// 加密后的数据
+NSData *enData = [_rsa rsaEncryptData:
+                  [enStr dataUsingEncoding:NSUTF8StringEncoding]];
+
+// 解密后的数据
+NSData *deData = [_rsa rsaDecryptData:enData];
+NSString *deStr = [[NSString alloc] initWithData:deData encoding:NSUTF8StringEncoding];
+
+NSLog(@"%@,%@",enStr, deStr);
+
+// 签名
+NSData *signedData = [_rsa sha256WithRSA:enData];
+
+// 对前面进行验证
+BOOL result = [_rsa rsaSHA256VertifyingData:enData withSignature:signedData];
+if (result) {
+      NSLog(@"验签成功");
+}else{
+   NSLog(@"验签失败");
+}
+}
+</code></pre>
+</div>
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/05/iOS%E5%AE%89%E5%85%A8%E4%B9%8B%E6%96%B9%E6%B3%95%E6%B7%B7%E6%B7%86/" title="link to iOS安全之方法混淆">iOS安全之方法混淆</a></h2>
+       <p class="excerpt"> 对APP的安全防护主要是对程序进行加密,其中加密有五个方向  1.URL编码加密 对程序中出现的URL进行编码加密，防止URL被静态分析。  2.本地数据加密 对NSUserDefaults，sqlite存储文件数据加密，保护帐号和关键信息。  3.网络传输数据加密 对客户端传输数据提供加密方案，有效防止通过网络接口的拦截获取。  4.方法体，方法名高级混淆 对应用程序的方法名和方法体进行混淆，保证源码被逆向后无法解析代码。  5.程序结构混排加密 对应用程序逻辑结构进行打乱混排，保证源...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-05-29 12:21:32 +0800" class="post-list__meta--date date">2016-05-29</time> &#8226; <span class="post-list__meta--tags tags">iOS开发经验总结</span><a class="btn-border-small" href=/2016/05/iOS%E5%AE%89%E5%85%A8%E4%B9%8B%E6%96%B9%E6%B3%95%E6%B7%B7%E6%B7%86/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/04/Socket%E9%80%9A%E4%BF%A1/" title="link to Socket通信">Socket通信</a></h2>
+       <p class="excerpt">最近工作中需要用到scoket通信相关知识。工程中使用到了AsyncSocket。1. socket 连接即时通讯最大的特点就是实时性，基本感觉不到延时或是掉线，所以必须对socket的连接进行监视与检测，在断线时进行重新连接，如果用户退出登录，要将socket手动关闭，否则对服务器会造成一定的负荷。所以需要枚举socket的状态： typedef enum{       //连接中       BH_Socket_Connecting = 12,       //连接成功       B...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-04-10 11:55:32 +0800" class="post-list__meta--date date">2016-04-10</time> &#8226; <span class="post-list__meta--tags tags">iOS开发经验总结</span><a class="btn-border-small" href=/2016/04/Socket%E9%80%9A%E4%BF%A1/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+  
+    <div id="disqus_thread"></div>
+    <script>
+    
+    var disqus_config = function () {
+        this.page.url = "http://vno.onevcat.com/2016/04/RSA%E7%AD%BE%E5%90%8D%E8%AE%A4%E8%AF%81/";
+        this.page.identifier = "/2016/04/RSA%E7%AD%BE%E5%90%8D%E8%AE%A4%E8%AF%81/";
+    };
+
+    var disqus_shortname = 'vno-jekyll';
+    
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>要查看<a href="http://disqus.com/?ref_noscript"> Disqus </a>评论，请启用 JavaScript</noscript>
+    
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">由 <a href="https://jekyllrb.com">Jekyll</a> 于 2016-06-23 生成，感谢 <a href="https://www.digitalocean.com/?refcode=30ed2d146762">Digital Ocean</a> 为本站提供稳定的 VPS 服务</span>
+        <span class="footer__copyright">本站由 <a href="http://Blank_佐毅">@heartmusicbeat.com</a> 创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

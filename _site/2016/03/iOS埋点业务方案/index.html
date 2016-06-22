@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>iOS埋点业务方案</title>
+  <meta name="description" content="   如果你的公司用户基数足够大，那么根据埋点数据分析得到的反馈是非常有用的。除了第三方的埋点数据分析，比如友盟，如果我们希望自己也存一份数据，作为对友盟数据的对比，在iOS工程中如何实现呢？   一般的埋点分为PV(界面级别的)，PA(action事件级别).下边为了减少冗余，简称PV,PA。PV中的数据一般都...">
+  <meta name="author" content="Wei Wang">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="iOS埋点业务方案">
+  <meta name="twitter:description" content="   如果你的公司用户基数足够大，那么根据埋点数据分析得到的反馈是非常有用的。除了第三方的埋点数据分析，比如友盟，如果我们希望自己也存一份数据，作为对友盟数据的对比，在iOS工程中如何实现呢？   一般的埋点分为PV(界面级别的)，PA(action事件级别).下边为了减少冗余，简称PV,PA。PV中的数据一般都...">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="iOS埋点业务方案">
+  <meta property="og:description" content="   如果你的公司用户基数足够大，那么根据埋点数据分析得到的反馈是非常有用的。除了第三方的埋点数据分析，比如友盟，如果我们希望自己也存一份数据，作为对友盟数据的对比，在iOS工程中如何实现呢？   一般的埋点分为PV(界面级别的)，PA(action事件级别).下边为了减少冗余，简称PV,PA。PV中的数据一般都...">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+  <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://vno.onevcat.com/2016/03/iOS%E5%9F%8B%E7%82%B9%E4%B8%9A%E5%8A%A1%E6%96%B9%E6%A1%88/">
+  <link rel="alternate" type="application/rss+xml" title="Blank_佐毅" href="http://vno.onevcat.com/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 Blank_佐毅 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="Blank_佐毅 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Blank_佐毅" class="blog-button">Blank_佐毅</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">上海方创金融信息服务股份有限公司 iOS高级开发工程师</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">嗨，我是姚亚杰(@Blank_佐毅)，一名来自中国的 iOS 开发者 。现居上海。         个性签名：认知这个世界，找到自我的定位。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="Visit blog" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="" target="_blank" title="My Projects">关于</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+    <a href="http://weibo.com/LoveProgramming" title="@LoveProgramming 的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/summerHearts" title="@summerHearts 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+
+  
+
+  <!-- RSS -->
+  <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+  
+  <!-- Email -->
+  <li class="navigation__item">
+    <a href="mailto:summerHearts@163.com" title="Contact me">
+      <i class='social fa fa-envelope'></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-disabled"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-03-04 21:10:32 +0800" itemprop="datePublished" class="post-meta__date date">2016-03-04</time> &#8226; <span class="post-meta__tags tags">iOS开发经验总结</span>
+    </div>
+    <h1 class="post-title">iOS埋点业务方案</h1>
+  </header>
+
+  <section class="post">
+    <div class="highlighter-rouge"><pre class="highlight"><code>   如果你的公司用户基数足够大，那么根据埋点数据分析得到的反馈是非常有用的。除了第三方的埋点数据分析，比如友盟，如果我们希望自己也存一份数据，作为对友盟数据的对比，在iOS工程中如何实现呢？
+   一般的埋点分为PV(界面级别的)，PA(action事件级别).下边为了减少冗余，简称PV,PA。PV中的数据一般都是静态的，与业务逻辑不相关，比如进入时间，离开时间，是否进入该界面等等。
+   所以这类需求是很好处理的，一般都会让所有的controller都继承BaseViewController。这样左右的信息都基于一个类中，符合高聚合的表现。
+   那么PA的事件埋点数据如何处理呢？最传统的方法是在每个action中添加相应的埋点数据，但是这样功能和业务逻辑就混在一起，代码结构很混乱，不简洁，不优雅。
+   混在在一起，放眼望去，怎么埋点到处都是啊，自己都烦的不行。尤其是每一次action改变之后，对应的逻辑就要改变，我要去不同的类中去更改。实在是不胜其烦。
+   其实早就有解决之道，而且非常好用，这里推荐MOAspect。它校于Aspect，有一个功能很重要就是支持相同的方法名注册，而Aspect是不支持不同类相同方法名注册的。
+   这些都是都是在去年经过验证，并且线上反馈还不错的。大家可以放心去用，坑都是踩过的。
+   因为项目中的业务是分模块来处理的，那么我们在埋点的时候也是根据业务逻辑来处理的。那么如何划分呢？
+   我是这么划分的：
+</code></pre>
+</div>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/325120-c00ead403c228366.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="" /></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>   给出图片，大家自己看，后边有一个简单的Demo，已经放在github上。顺便说一句，希望大家遇到问题的时候能够冷静下来一点点分析。
+
+   首先为了便于修改埋点数据，给出了宏定义的.h文件
+</code></pre>
+</div>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/325120-60fac04f37f9a424.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="" /></p>
+
+<p>然后是埋点辅助类：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/325120-746b3f8253a23ab5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="" /></p>
+
+<p>Snip20160304_3.png</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/325120-0170074a52641bc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="" /></p>
+
+<p>Snip20160304_4.png</p>
+
+<p>接下来就是在具体的类中实现了：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/325120-53981a8e9cf7cd47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="" /></p>
+
+<p>Snip20160304_5.png</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#最后的最后，如果您老人家，哦，不，小鲜肉们，觉得有用的就关注一下，不枉我写了半个小时。
+github地址：https://github.com/summerHearts/AspectTrack/tree/master 。
+</code></pre>
+</div>
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/03/iOS%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E6%88%98/" title="link to iOS 数据库实战">iOS 数据库实战</a></h2>
+       <p class="excerpt">经典的数据库服务开发库有一下几种： CoreData 操作较为复杂, MagicalRecord 有着很多的特性,比如可以根据设置在主线程或者子线程中进行操作,方便快捷,能入榜最佳10大开源库自有其独到的地方,会使用 MagicalRecord 需要具备一定的 CoreData 相关知识,本人也只是现学现用,但深知其可以为开发带来的好处,使用数据库的朋友有着如下的一些选择.  1. SQLite3    C函数形式(本人之前做过干嵌入式开发,即使是这样也不推荐使用面向过程毫无对象概念的SQ...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-03-13 18:56:32 +0800" class="post-list__meta--date date">2016-03-13</time> &#8226; <span class="post-list__meta--tags tags">iOS开发经验总结</span><a class="btn-border-small" href=/2016/03/iOS%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E6%88%98/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/01/iOS%E9%81%BF%E5%85%8D%E6%BB%A5%E7%94%A8%E5%8D%95%E4%BE%8B/" title="link to iOS避免滥用单例">iOS避免滥用单例</a></h2>
+       <p class="excerpt"> #单例模式：     1: 类只能有一个实例，而且必须从一个为人熟知的访问点对其进行访问。     2: 这个唯一的实例只能通过子类化进行扩展，而且扩展对象不会破坏客户端的代码。      单例模式提供了一个为人熟知的访问点，供客户类为共享资源生成唯一实例，并通过它对共享资源进行访问。      虽然静态的全局对象引用或者类方法也可以提供全局访问点，但是全局对象无法防止类被初始化一次以上，而且类方法也缺少消除耦合的灵活性。      静态全局变量保持着对类的实例的唯一引用，但是当程序中有...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-01-28 18:56:32 +0800" class="post-list__meta--date date">2016-01-28</time> &#8226; <span class="post-list__meta--tags tags">iOS开发经验总结</span><a class="btn-border-small" href=/2016/01/iOS%E9%81%BF%E5%85%8D%E6%BB%A5%E7%94%A8%E5%8D%95%E4%BE%8B/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+  
+    <div id="disqus_thread"></div>
+    <script>
+    
+    var disqus_config = function () {
+        this.page.url = "http://vno.onevcat.com/2016/03/iOS%E5%9F%8B%E7%82%B9%E4%B8%9A%E5%8A%A1%E6%96%B9%E6%A1%88/";
+        this.page.identifier = "/2016/03/iOS%E5%9F%8B%E7%82%B9%E4%B8%9A%E5%8A%A1%E6%96%B9%E6%A1%88/";
+    };
+
+    var disqus_shortname = 'vno-jekyll';
+    
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>要查看<a href="http://disqus.com/?ref_noscript"> Disqus </a>评论，请启用 JavaScript</noscript>
+    
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">由 <a href="https://jekyllrb.com">Jekyll</a> 于 2016-06-23 生成，感谢 <a href="https://www.digitalocean.com/?refcode=30ed2d146762">Digital Ocean</a> 为本站提供稳定的 VPS 服务</span>
+        <span class="footer__copyright">本站由 <a href="http://Blank_佐毅">@heartmusicbeat.com</a> 创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

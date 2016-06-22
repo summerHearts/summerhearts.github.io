@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>iOS避免滥用单例</title>
+  <meta name="description" content=" #单例模式：     1: 类只能有一个实例，而且必须从一个为人熟知的访问点对其进行访问。     2: 这个唯一的实例只能通过子类化进行扩展，而且扩展对象不会破坏客户端的代码。      单例模式提供了一个为人熟知的访问点，供客户类为共享资源生成唯一实例，并通过它对共享资源进行访问。      虽然静态的全局...">
+  <meta name="author" content="Wei Wang">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="iOS避免滥用单例">
+  <meta name="twitter:description" content=" #单例模式：     1: 类只能有一个实例，而且必须从一个为人熟知的访问点对其进行访问。     2: 这个唯一的实例只能通过子类化进行扩展，而且扩展对象不会破坏客户端的代码。      单例模式提供了一个为人熟知的访问点，供客户类为共享资源生成唯一实例，并通过它对共享资源进行访问。      虽然静态的全局...">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="iOS避免滥用单例">
+  <meta property="og:description" content=" #单例模式：     1: 类只能有一个实例，而且必须从一个为人熟知的访问点对其进行访问。     2: 这个唯一的实例只能通过子类化进行扩展，而且扩展对象不会破坏客户端的代码。      单例模式提供了一个为人熟知的访问点，供客户类为共享资源生成唯一实例，并通过它对共享资源进行访问。      虽然静态的全局...">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+  <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://vno.onevcat.com/2016/01/iOS%E9%81%BF%E5%85%8D%E6%BB%A5%E7%94%A8%E5%8D%95%E4%BE%8B/">
+  <link rel="alternate" type="application/rss+xml" title="Blank_佐毅" href="http://vno.onevcat.com/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 Blank_佐毅 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="Blank_佐毅 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Blank_佐毅" class="blog-button">Blank_佐毅</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">上海方创金融信息服务股份有限公司 iOS高级开发工程师</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">嗨，我是姚亚杰(@Blank_佐毅)，一名来自中国的 iOS 开发者 。现居上海。         个性签名：认知这个世界，找到自我的定位。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="Visit blog" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="" target="_blank" title="My Projects">关于</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+    <a href="http://weibo.com/LoveProgramming" title="@LoveProgramming 的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/summerHearts" title="@summerHearts 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+
+  
+
+  <!-- RSS -->
+  <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+  
+  <!-- Email -->
+  <li class="navigation__item">
+    <a href="mailto:summerHearts@163.com" title="Contact me">
+      <i class='social fa fa-envelope'></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-disabled"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-01-28 18:56:32 +0800" itemprop="datePublished" class="post-meta__date date">2016-01-28</time> &#8226; <span class="post-meta__tags tags">iOS开发经验总结</span>
+    </div>
+    <h1 class="post-title">iOS避免滥用单例</h1>
+  </header>
+
+  <section class="post">
+    <div class="highlighter-rouge"><pre class="highlight"><code> <span class="cp">#单例模式：
+</span>     <span class="mi">1</span><span class="o">:</span> <span class="err">类只能有一个实例，而且必须从一个为人熟知的访问点对其进行访问。</span>
+     <span class="mi">2</span><span class="o">:</span> <span class="err">这个唯一的实例只能通过子类化进行扩展，而且扩展对象不会破坏客户端的代码。</span>
+      <span class="err">单例模式提供了一个为人熟知的访问点，供客户类为共享资源生成唯一实例，并通过它对共享资源进行访问。</span>
+      <span class="err">虽然静态的全局对象引用或者类方法也可以提供全局访问点，但是全局对象无法防止类被初始化一次以上，而且类方法也缺少消除耦合的灵活性。</span>
+      <span class="err">静态全局变量保持着对类的实例的唯一引用，但是当程序中有两个相同的全乎对象类型的话，就不能确保同一份共享资源的读取和输入。</span>
+      <span class="err">类方法提供了共享服务，不用创建其对象就可以访问。资源的唯一实例可以在类方法中维护。但是，当类需要被子类化以提供更好的服务时，类方法并不能解决这一问题。</span>
+
+ <span class="cp">#使用单例模式需要注意的问题
+</span>     <span class="mi">1</span><span class="o">:</span> <span class="err">如果单例对象要由多个线程访问，那么使它线程安全是至关重要的。但我们取单例对象的时候，一般都需要检查周围加入一些</span><span class="k">@synchronized</span><span class="p">()</span><span class="err">程序块或者</span><span class="n">NSLock</span><span class="err">锁的实例。</span>
+     <span class="mi">2</span><span class="o">:</span> <span class="s">"单例就是披着羊皮的全局状态"</span><span class="err">。一个单例可以被使用在任何地方，而不需要显式地声明依赖。</span>
+     <span class="mi">3</span><span class="o">:</span> <span class="err">单例应该只用来保存全局的状态，并且不能和任何作用域绑定。如果这些状态的作用域比一个完整的应用程序的生命周期要短，那么这个状态就不应该使用单例来管理。</span>
+     <span class="mi">4</span><span class="o">:</span> <span class="err">用一个单例来管理用户绑定的状态，不是很好的设计方式，需要重新评估自己的设计方案。</span>
+
+ <span class="cp">#举例说明错误的单例使用
+</span>     <span class="mi">1</span><span class="o">:</span> <span class="err">假设现在我们创建一个单例，该单例拥有一个属性，我们姑且以</span><span class="n">MessageType</span><span class="err">来做假设</span><span class="p">.</span>
+     <span class="mi">2</span><span class="o">:</span> <span class="n">messageType</span><span class="err">分为</span><span class="n">userMessage</span><span class="p">(</span><span class="err">用户消息</span><span class="p">)</span> <span class="err">和</span><span class="n">BroadcastMessage</span><span class="p">(</span><span class="err">广播消息</span><span class="p">)</span><span class="err">。</span>
+     <span class="err">代码块：</span>
+     <span class="cp">#import &lt;Foundation/Foundation.h&gt;
+</span>     <span class="k">@interface</span> <span class="nc">MessageCenterManager</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+     <span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span> <span class="p">,</span><span class="n">assign</span><span class="p">)</span> <span class="n">NSInteger</span> <span class="n">messageType</span><span class="p">;</span>
+     <span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">sharedInstance</span><span class="p">;</span>
+     <span class="k">@end</span>
+
+    <span class="p">.</span><span class="n">m</span><span class="err">实现</span>
+     <span class="cp">#import "MessageCenterManager.h"
+</span>     <span class="k">static</span> <span class="n">MessageCenterManager</span> <span class="o">*</span><span class="n">_sharedInstance</span><span class="p">;</span>
+     <span class="k">@implementation</span> <span class="nc">MessageCenterManager</span>
+     <span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">sharedInstance</span><span class="p">{</span>
+          <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+         <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+                  <span class="n">_sharedInstance</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MessageCenterManager</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+         <span class="p">});</span>
+         <span class="k">return</span> <span class="n">_sharedInstance</span><span class="p">;</span>
+     <span class="p">}</span>
+
+     <span class="o">-</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">copyWithZone</span><span class="o">:</span><span class="p">(</span><span class="n">NSZone</span> <span class="o">*</span><span class="p">)</span><span class="n">zone</span><span class="p">{</span>
+         <span class="k">return</span> <span class="n">_sharedInstance</span><span class="p">;</span>
+     <span class="p">}</span>
+
+     <span class="o">+</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">allocWithZone</span><span class="o">:</span><span class="p">(</span><span class="k">struct</span> <span class="n">_NSZone</span> <span class="o">*</span><span class="p">)</span><span class="n">zone</span><span class="p">{</span>
+            <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+                    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+                        <span class="n">_sharedInstance</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">allocWithZone</span><span class="p">:</span><span class="n">zone</span><span class="p">];</span>
+                     <span class="p">});</span>
+           <span class="k">return</span> <span class="n">_sharedInstance</span><span class="p">;</span>
+     <span class="p">}</span>
+    <span class="k">@end</span>
+
+   <span class="cp">#此时我们创建了一个单例，且看下边的用法，是错误的，不安全的。
+</span>   <span class="cp">#import "UserMessage.h"
+</span>   <span class="k">@implementation</span> <span class="nc">UserMessage</span>
+   <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">someMethod</span><span class="p">{</span>
+  <span class="c1">//在这里是不能像这样引用单例的，这样的话用户消息和广播消息就会耦合在一起
+</span>    <span class="k">if</span><span class="p">([</span><span class="n">MessageCenterManager</span> <span class="nf">sharedInstance</span><span class="p">].</span><span class="n">messageType</span><span class="p">){</span>
+          <span class="c1">//do something
+</span>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="p">}</span>
+   <span class="p">}</span>
+   <span class="k">@end</span>
+
+   <span class="cp">#广播消息中
+</span>    <span class="k">@implementation</span> <span class="nc">BroadcastMessage</span>
+     <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">someMethod</span><span class="p">{</span>
+            <span class="p">[[</span><span class="n">MessageCenterManager</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">setMessageType</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+      <span class="p">}</span>
+    <span class="k">@end</span>
+
+
+
+     <span class="err">这种情况应该只能发生在</span> <span class="n">BroadcastMessage</span><span class="err">显式引用了</span><span class="n">UserMessage</span><span class="err">，并表明了两者之间的关系时。这里使用了单例，由于其具有全局和多状态的特性，导致隐式地在两个看起来完全不相关的模块之间建立了耦合。</span>
+
+  <span class="err">二</span>   <span class="mi">1</span><span class="o">:</span><span class="err">假设现在我们需要存取用户的头像。当用户需要退出登陆的时候，我们要讲存储在本地的图片删除。</span>
+       <span class="mi">2</span><span class="o">:</span><span class="err">当展示图片的时候需要从本地文件中读取。假设用户此时登出程序，我们需要将用户存取数据置为空，即需要将单例置为</span><span class="nb">nil</span><span class="err">。</span>
+      <span class="err">因为项目中会有两个到三个地方都会有存取的操作，那么此时，单例的操作就必须注意线程安全了。</span>
+
+      <span class="mi">3</span><span class="o">:</span> <span class="err">其实这种将用户状态以单例形式保存所有地方都是用方式是不对的。单例应该只用来保存全局的状态，并且不能和任何作用域绑定。</span>
+      <span class="mi">4</span><span class="o">:</span> <span class="err">如果这些状态的作用域比一个完整的应用程序的生命周期要短，那么这个状态就不应该使用单例来管理。用一个单例来管理用户绑定的状态，不是一种良好的设计思维。</span>
+</code></pre>
+</div>
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/03/iOS%E5%9F%8B%E7%82%B9%E4%B8%9A%E5%8A%A1%E6%96%B9%E6%A1%88/" title="link to iOS埋点业务方案">iOS埋点业务方案</a></h2>
+       <p class="excerpt">   如果你的公司用户基数足够大，那么根据埋点数据分析得到的反馈是非常有用的。除了第三方的埋点数据分析，比如友盟，如果我们希望自己也存一份数据，作为对友盟数据的对比，在iOS工程中如何实现呢？   一般的埋点分为PV(界面级别的)，PA(action事件级别).下边为了减少冗余，简称PV,PA。PV中的数据一般都是静态的，与业务逻辑不相关，比如进入时间，离开时间，是否进入该界面等等。   所以这类需求是很好处理的，一般都会让所有的controller都继承BaseViewControlle...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-03-04 21:10:32 +0800" class="post-list__meta--date date">2016-03-04</time> &#8226; <span class="post-list__meta--tags tags">iOS开发经验总结</span><a class="btn-border-small" href=/2016/03/iOS%E5%9F%8B%E7%82%B9%E4%B8%9A%E5%8A%A1%E6%96%B9%E6%A1%88/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/01/%E4%B8%83%E7%89%9B%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E4%B8%8A%E4%BC%A0/" title="link to 七牛文件批量上传">七牛文件批量上传</a></h2>
+       <p class="excerpt">七牛文件批量上传七牛文件上传的过程，如下图所示如果你不是很熟悉七牛SDK的集成过程，这里给您一点提示: cocoaPods  podfile  pod ‘Qiniu’  引入七牛SDK文件. 过程如下：@1  获取上传文件到七牛的token，即用户权限。         @2   引用七牛SDK中文件方法，上传文件，上传成功和失败皆是有回调数据的。       QNUploadOption *opt = [[QNUploadOption alloc] initWithMime:nil pr...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-01-20 18:56:32 +0800" class="post-list__meta--date date">2016-01-20</time> &#8226; <span class="post-list__meta--tags tags">iOS开发经验总结</span><a class="btn-border-small" href=/2016/01/%E4%B8%83%E7%89%9B%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E4%B8%8A%E4%BC%A0/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+  
+    <div id="disqus_thread"></div>
+    <script>
+    
+    var disqus_config = function () {
+        this.page.url = "http://vno.onevcat.com/2016/01/iOS%E9%81%BF%E5%85%8D%E6%BB%A5%E7%94%A8%E5%8D%95%E4%BE%8B/";
+        this.page.identifier = "/2016/01/iOS%E9%81%BF%E5%85%8D%E6%BB%A5%E7%94%A8%E5%8D%95%E4%BE%8B/";
+    };
+
+    var disqus_shortname = 'vno-jekyll';
+    
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>要查看<a href="http://disqus.com/?ref_noscript"> Disqus </a>评论，请启用 JavaScript</noscript>
+    
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">由 <a href="https://jekyllrb.com">Jekyll</a> 于 2016-06-23 生成，感谢 <a href="https://www.digitalocean.com/?refcode=30ed2d146762">Digital Ocean</a> 为本站提供稳定的 VPS 服务</span>
+        <span class="footer__copyright">本站由 <a href="http://Blank_佐毅">@heartmusicbeat.com</a> 创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

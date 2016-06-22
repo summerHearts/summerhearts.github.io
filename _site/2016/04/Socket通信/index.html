@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Socket通信</title>
+  <meta name="description" content="最近工作中需要用到scoket通信相关知识。工程中使用到了AsyncSocket。">
+  <meta name="author" content="Wei Wang">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Socket通信">
+  <meta name="twitter:description" content="最近工作中需要用到scoket通信相关知识。工程中使用到了AsyncSocket。">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Socket通信">
+  <meta property="og:description" content="最近工作中需要用到scoket通信相关知识。工程中使用到了AsyncSocket。">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+  <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://vno.onevcat.com/2016/04/Socket%E9%80%9A%E4%BF%A1/">
+  <link rel="alternate" type="application/rss+xml" title="Blank_佐毅" href="http://vno.onevcat.com/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 Blank_佐毅 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="Blank_佐毅 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Blank_佐毅" class="blog-button">Blank_佐毅</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">上海方创金融信息服务股份有限公司 iOS高级开发工程师</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">嗨，我是姚亚杰(@Blank_佐毅)，一名来自中国的 iOS 开发者 。现居上海。         个性签名：认知这个世界，找到自我的定位。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="Visit blog" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="" target="_blank" title="My Projects">关于</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+    <a href="http://weibo.com/LoveProgramming" title="@LoveProgramming 的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/summerHearts" title="@summerHearts 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+
+  
+
+  <!-- RSS -->
+  <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+  
+  <!-- Email -->
+  <li class="navigation__item">
+    <a href="mailto:summerHearts@163.com" title="Contact me">
+      <i class='social fa fa-envelope'></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-disabled"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-04-10 11:55:32 +0800" itemprop="datePublished" class="post-meta__date date">2016-04-10</time> &#8226; <span class="post-meta__tags tags">iOS开发经验总结</span>
+    </div>
+    <h1 class="post-title">Socket通信</h1>
+  </header>
+
+  <section class="post">
+    <p>最近工作中需要用到scoket通信相关知识。工程中使用到了AsyncSocket。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. socket 连接
+
+即时通讯最大的特点就是实时性，基本感觉不到延时或是掉线，所以必须对socket的连接进行监视与检测，在断线时进行重新连接，
+如果用户退出登录，要将socket手动关闭，否则对服务器会造成一定的负荷。所以需要枚举socket的状态：
+
+ typedef enum{
+       //连接中
+       BH_Socket_Connecting = 12,
+       //连接成功
+       BH_Socket_ConnectSucc = 13,
+       //连接失败
+       BH_Socket_ConnectFail = 14,
+}BHSocketStatus;
+
+typedef enum {
+    //心跳消息
+     BH_Socket_Type_HeartMsg  = 6,
+   //登录成功回调
+     BH_Socket_Type_LoginCallBack = 2,
+   //发送消息回调
+     BH_Socket_Type_SendMsgCallBack = 4,
+    //接受聊天消息回调
+     BH_Socket_Type_RecChatMsg  = 5,
+    //踢人消息
+     BH_Socket_Type_KicMsg = 7,
+     //登录失败
+     BH_Socket_Type_AuthFail = 401,
+
+}BHSocketMsgType;
+
+如果对一个已经连接的socket对象再次进行连接操作，会抛出异常（不可对已经连接的socket进行连接）程序崩溃，所以在连接socket之前要对socket对象的连接状态进行判断。
+
+使用socket进行即时通讯还有一个必须的操作，即对服务器发送心跳包，每隔一段时间对服务器发送长连接指令（指令不唯一，由服务器端指定，包括使用socket发送消息，发送的数据和格式都是由服务器指定），如果没有收到服务器的返回消息，AsyncSocket会得到失去连接的消息，我们可以在失去连接的回调方法里进行重新连接。
+</code></pre>
+</div>
+
+<p>开源框架有D-Controls，详情去github搜索。
+     分析一下源码：首先创建一个SocketEngine.为单例对象。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">BHSocketEngine</span><span class="o">*</span><span class="p">)</span><span class="n">sharedInstance</span><span class="p">;</span>
+
+<span class="cm">/**
+  *  创建socket
+  */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">createSocket</span><span class="p">;</span>
+<span class="cm">/**
+ *  关闭socket
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">closeSocket</span><span class="p">;</span>
+
+ <span class="cm">/**
+   *  发送消息
+   *
+   *  @param msg 消息
+   */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendMessage</span><span class="p">:(</span><span class="n">BHSocketSendChatMsg</span><span class="o">*</span><span class="p">)</span><span class="nv">msg</span><span class="p">;</span>
+<span class="cm">/**
+  *  处理消息
+  *
+  *  @param recMsgArr 消息数组
+  */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleMsgListInfoWithRecMsgArr</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">*</span><span class="p">)</span><span class="nv">recMsgArr</span><span class="p">;</span>
+ <span class="cm">/**
+   *  处理消息
+   *
+   *  @param msg  BHSocketChatRecMsg类型
+   *
+   *  @return BHMsgInfo类型消息
+   */</span>
+ <span class="k">-</span> <span class="p">(</span><span class="n">BHMsgInfo</span><span class="o">*</span><span class="p">)</span><span class="nf">handleMsgListInfoWithRecMsg</span><span class="p">:(</span><span class="n">BHSocketChatRecMsg</span><span class="o">*</span><span class="p">)</span><span class="nv">msg</span><span class="p">;</span>
+
+ <span class="cm">/**
+   *  用户请求
+   *
+   *  @param msg BHSocketChatRecMsg类型消息
+   */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleSocketSycRequestMsgWithBaseMsg</span><span class="p">:(</span><span class="n">BHSocketChatRecMsg</span><span class="o">*</span><span class="p">)</span><span class="nv">msg</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NSData</span><span class="o">*</span><span class="p">)</span><span class="nf">shortToByte</span><span class="p">:(</span><span class="kt">short</span><span class="p">)</span><span class="nv">intStr</span> <span class="nf">Length</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">length</span><span class="p">;</span>
+
+
+<span class="k">@interface</span> <span class="nc">BHSocketEngine</span><span class="p">()</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">strong</span><span class="p">)</span> <span class="n">NSData</span>  <span class="o">*</span><span class="n">tempBufferData</span><span class="p">;</span>
+
+<span class="k">@end</span>
+<span class="k">@implementation</span> <span class="nc">BHSocketEngine</span>
+
+<span class="cp">#pragma mark - Socket Action
+</span><span class="k">+</span> <span class="p">(</span><span class="n">BHSocketEngine</span><span class="o">*</span><span class="p">)</span><span class="n">sharedInstance</span><span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">socketEngine</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">socketEngine</span> <span class="o">=</span> <span class="p">[[</span><span class="n">BHSocketEngine</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">socketEngine</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">createSocket</span><span class="p">{</span>
+  <span class="c1">//如果当前用户为空，直接返回
+</span>   <span class="k">if</span> <span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">currentUser</span> <span class="o">==</span> <span class="nb">nil</span> <span class="o">||</span> <span class="n">R</span><span class="p">.</span><span class="n">currentUser</span><span class="p">.</span><span class="n">auth</span> <span class="o">==</span> <span class="nb">nil</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+   <span class="p">}</span>
+  <span class="c1">//关闭socket
+</span>  <span class="p">[</span><span class="n">self</span> <span class="nf">closeSocket</span><span class="p">];</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">socketStatus</span> <span class="o">=</span> <span class="n">BH_Socket_Connecting</span><span class="p">;</span>
+  <span class="n">R</span><span class="p">.</span><span class="n">recStatus</span>       <span class="o">=</span> <span class="n">BH_Socket_Connecting</span><span class="p">;</span>
+  <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">chatServerDic</span> <span class="o">=</span> <span class="p">@{</span><span class="s">@"ip"</span><span class="o">:</span><span class="n">SocketIP</span><span class="p">,</span>
+                                <span class="s">@"port"</span><span class="o">:</span><span class="n">SocketPort</span><span class="p">,</span>
+                                <span class="s">@"auth"</span><span class="o">:</span><span class="n">R</span><span class="p">.</span><span class="n">currentUser</span><span class="p">.</span><span class="n">auth</span><span class="p">};</span>
+<span class="cm">/*
+ 读取离线消息
+*/</span>
+   <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+       <span class="p">[</span><span class="n">R</span> <span class="nf">syncUnreadMsg</span><span class="p">];</span>
+   <span class="p">});</span>
+<span class="c1">//创建socket链接，一般需要ip , port auth信息。
+</span>  <span class="n">BHSocketConnectInfo</span> <span class="o">*</span><span class="n">info</span> <span class="o">=</span> <span class="p">[</span><span class="n">BHSocketConnectInfo</span> <span class="nf">dicToConntectInfo</span><span class="p">:</span><span class="n">chatServerDic</span> <span class="p">];</span>
+   <span class="n">self</span><span class="p">.</span><span class="n">connectInfo</span> <span class="o">=</span> <span class="n">info</span><span class="p">;</span>
+   <span class="p">[</span><span class="n">self</span> <span class="nf">initSocketWithSocketInfo</span><span class="p">:</span><span class="n">info</span><span class="p">];</span>
+<span class="p">}</span>
+  <span class="c1">//关闭socket服务
+</span><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">closeSocket</span><span class="p">{</span>    
+     <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">heartTimer</span><span class="p">)</span> <span class="p">{</span>
+           <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">heartTimer</span> <span class="nf">invalidate</span><span class="p">];</span>
+           <span class="n">self</span><span class="p">.</span><span class="n">heartTimer</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+     <span class="p">}</span>
+
+     <span class="k">if</span> <span class="p">(</span><span class="n">_bhSocket</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_bhSocket</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+        <span class="p">[</span><span class="n">_bhSocket</span> <span class="nf">disconnect</span><span class="p">];</span>
+         <span class="n">_bhSocket</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">reteatMsgTimer</span><span class="p">)</span> <span class="p">{</span>
+         <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">reteatMsgTimer</span> <span class="nf">invalidate</span><span class="p">];</span>
+         <span class="n">self</span><span class="p">.</span><span class="n">reteatMsgTimer</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+     <span class="p">}</span>
+      <span class="n">R</span><span class="p">.</span><span class="n">recStatus</span> <span class="o">=</span> <span class="n">BH_Msg_Disconnect</span><span class="p">;</span>
+   <span class="p">}</span>
+  <span class="c1">//重连服务
+</span><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">reconnectSocket</span><span class="p">{</span>
+      <span class="p">[</span><span class="n">self</span> <span class="nf">closeSocket</span><span class="p">];</span>
+      <span class="p">[</span><span class="n">self</span> <span class="nf">createSocket</span><span class="p">];</span>
+  <span class="p">}</span>
+<span class="cp">#pragma mark -----sendMethod
+</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sendMessage</span><span class="o">:</span><span class="p">(</span><span class="n">BHSocketSendChatMsg</span><span class="o">*</span><span class="p">)</span><span class="n">msg</span><span class="p">{</span>
+
+<span class="n">NSData</span><span class="o">*</span> <span class="n">msgData</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSData</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithData</span><span class="p">:[</span><span class="n">self</span> <span class="nf">parseSendMsgToNSData</span><span class="p">:</span><span class="n">msg</span><span class="p">]];</span>
+
+<span class="k">if</span> <span class="p">([</span><span class="n">_bhSocket</span> <span class="nf">isConnected</span><span class="p">])</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">msgTimeOut</span><span class="p">:)</span> <span class="n">withObject</span><span class="o">:</span><span class="n">msg</span> <span class="n">afterDelay</span><span class="o">:</span><span class="mi">5</span><span class="p">];</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"sendMessage:连接"</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">_bhSocket</span> <span class="nf">writeData</span><span class="p">:</span><span class="n">msgData</span> <span class="nf">withTimeout</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span> <span class="n">tag</span><span class="o">:</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">msgTimeOut</span><span class="p">:)</span> <span class="n">withObject</span><span class="o">:</span><span class="n">msg</span> <span class="n">afterDelay</span><span class="o">:</span><span class="mi">0</span><span class="p">];</span>
+     <span class="n">NSLog</span><span class="p">(</span><span class="s">@"sendMessage:未连接"</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">reconnectSocket</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="p">}</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sendHeartMsg</span><span class="p">{</span>
+
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@"发送心跳消息"</span><span class="p">);</span>
+
+<span class="n">NSTimeInterval</span> <span class="n">nowTime</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">]</span> <span class="nf">timeIntervalSince1970</span><span class="p">];</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">connectTime</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nowTime</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">connectTime</span> <span class="o">&gt;</span> <span class="mi">16</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">socketFail</span><span class="p">];</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*
+NSDate *date      = [NSDate date];
+NSDate *loginDate = [[NSUserDefaults standardUserDefaults] objectForKey:Socket_LoginSuccess_Time];
+NSTimeInterval ii = [date timeIntervalSinceDate:loginDate];
+NSLog(@"登录持续 ii:%f",ii);
+*/</span>
+
+<span class="c1">//拼心跳消息
+</span><span class="n">BHSocketSendLoginMsg</span><span class="o">*</span> <span class="n">loginMsg</span> <span class="o">=</span> <span class="p">[[</span><span class="n">BHSocketSendLoginMsg</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">init</span><span class="p">];</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">login_type</span> <span class="o">=</span> <span class="n">talkAppLogin</span><span class="p">;</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">from_cust_id</span> <span class="o">=</span> <span class="n">R</span><span class="p">.</span><span class="n">currentUser</span><span class="p">.</span><span class="n">custId</span><span class="p">;</span>
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@"heartMsg.from_cust_id is %llu,userDataModel is %@"</span><span class="p">,</span><span class="n">loginMsg</span><span class="p">.</span><span class="n">from_cust_id</span><span class="p">,</span><span class="n">R</span><span class="p">.</span><span class="n">currentUser</span><span class="p">);</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">login_auth</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">connectInfo</span><span class="p">.</span><span class="n">socketAuth</span><span class="p">;</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">talkStart</span><span class="p">;</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">talkEnd</span><span class="p">;</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">msg_type</span> <span class="o">=</span> <span class="n">MSG_HEART</span><span class="p">;</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">msg_no</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">)([[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">]</span> <span class="nf">timeIntervalSince1970</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">);</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">talkVersion</span><span class="p">;</span>
+<span class="n">NSData</span><span class="o">*</span> <span class="n">msgData</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSData</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithData</span><span class="p">:[</span><span class="n">self</span> <span class="nf">parseLoginMsgToNSData</span><span class="p">:</span><span class="n">loginMsg</span><span class="p">]];</span>
+<span class="p">[</span><span class="n">_bhSocket</span> <span class="nf">writeData</span><span class="p">:</span><span class="n">msgData</span> <span class="nf">withTimeout</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span> <span class="n">tag</span><span class="o">:</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sendLoginMsg</span><span class="p">{</span>
+
+<span class="c1">//拼登录消息
+</span><span class="n">BHSocketSendLoginMsg</span><span class="o">*</span> <span class="n">loginMsg</span> <span class="o">=</span> <span class="p">[[</span><span class="n">BHSocketSendLoginMsg</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">init</span><span class="p">];</span>
+
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">login_type</span>   <span class="o">=</span> <span class="n">talkAppLogin</span><span class="p">;</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">from_cust_id</span> <span class="o">=</span> <span class="n">R</span><span class="p">.</span><span class="n">currentUser</span><span class="p">.</span><span class="n">custId</span><span class="p">;</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">login_auth</span>   <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">connectInfo</span><span class="p">.</span><span class="n">socketAuth</span><span class="p">;</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">start</span>        <span class="o">=</span> <span class="n">talkStart</span><span class="p">;</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">end</span>          <span class="o">=</span> <span class="n">talkEnd</span><span class="p">;</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">msg_type</span>     <span class="o">=</span> <span class="n">MSG_LOGIN</span><span class="p">;</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">msg_no</span>       <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">)([[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">]</span> <span class="nf">timeIntervalSince1970</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">);</span>
+<span class="n">loginMsg</span><span class="p">.</span><span class="n">version</span>      <span class="o">=</span> <span class="n">talkVersion</span><span class="p">;</span>
+
+<span class="n">NSData</span><span class="o">*</span> <span class="n">msgData</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSData</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithData</span><span class="p">:[</span><span class="n">self</span> <span class="nf">parseLoginMsgToNSData</span><span class="p">:</span><span class="n">loginMsg</span><span class="p">]];</span>
+<span class="c1">//socket发送数据是以栈的形式存放，所有数据放在一个栈中，存取时会出现粘包的现象，所以很多时候服务器在收发数据时是以先发送内容字节长度，
+</span> <span class="c1">//再发送内容的形式，得到数据时也是先得到一个长度，再根据这个长度在栈中读取这个长度的字节流，如果是这种情况，发送数据时只需在发送内容前发送一个长度，发送方法与发送内容一样，假设长度为8
+</span><span class="p">[</span><span class="n">_bhSocket</span> <span class="nf">writeData</span><span class="p">:</span><span class="n">msgData</span> <span class="nf">withTimeout</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span> <span class="n">tag</span><span class="o">:</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">}</span>
+ <span class="cp">#pragma mark ---  AsyncSocketDelegate
+</span><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onSocket</span><span class="o">:</span><span class="p">(</span><span class="n">AsyncSocket</span> <span class="o">*</span><span class="p">)</span><span class="n">sock</span> <span class="n">didConnectToHost</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">host</span> <span class="n">port</span><span class="o">:</span><span class="p">(</span><span class="n">UInt16</span><span class="p">)</span><span class="n">port</span><span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"onsocket:%p didConnectToHost:%@ port:%hu"</span><span class="p">,</span><span class="n">sock</span><span class="p">,</span><span class="n">host</span><span class="p">,</span><span class="n">port</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">sendLoginMsg</span><span class="p">];</span>
+    <span class="c1">//接收数据
+</span>    <span class="err">为了能时刻接收到</span><span class="n">socket</span><span class="err">的消息，我们在长连接方法中进行读取数据</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">socket</span> <span class="nf">readDataWithTimeout</span><span class="p">:</span><span class="mi">30</span> <span class="nf">tag</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">sock</span> <span class="nf">readDataWithTimeout</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span> <span class="nf">tag</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onSocket</span><span class="o">:</span><span class="p">(</span><span class="n">AsyncSocket</span> <span class="o">*</span><span class="p">)</span><span class="n">sock</span> <span class="n">didWriteDataWithTag</span><span class="o">:</span><span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="n">tag</span><span class="p">{</span>
+    <span class="p">[</span><span class="n">sock</span> <span class="nf">readDataWithTimeout</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span> <span class="nf">tag</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+ <span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onSocket</span><span class="o">:</span><span class="p">(</span><span class="n">AsyncSocket</span> <span class="o">*</span><span class="p">)</span><span class="n">sock</span> <span class="n">willDisconnectWithError</span><span class="o">:</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="n">err</span><span class="p">{</span>
+
+      <span class="n">R</span><span class="p">.</span><span class="n">recStatus</span> <span class="o">=</span> <span class="n">BH_Msg_Disconnect</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onSocketDidDisconnect</span><span class="o">:</span><span class="p">(</span><span class="n">AsyncSocket</span> <span class="o">*</span><span class="p">)</span><span class="n">sock</span><span class="p">{</span>
+         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"onSocketDidDisconnect"</span><span class="p">);</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">closeSocket</span><span class="p">];</span>
+        <span class="n">R</span><span class="p">.</span><span class="n">recStatus</span> <span class="o">=</span> <span class="n">BH_Msg_Disconnect</span><span class="p">;</span>
+<span class="p">}</span>
+
+ <span class="c1">//socket接受消息
+</span> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onSocket</span><span class="o">:</span><span class="p">(</span><span class="n">AsyncSocket</span> <span class="o">*</span><span class="p">)</span><span class="n">sock</span> <span class="n">didReadData</span><span class="o">:</span><span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="n">data</span> <span class="n">withTag</span><span class="o">:</span><span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="n">tag</span><span class="p">{</span>
+
+     <span class="n">self</span><span class="p">.</span><span class="n">connectTime</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">]</span> <span class="nf">timeIntervalSince1970</span><span class="p">];</span>
+     <span class="k">if</span> <span class="p">([</span><span class="n">self</span><span class="p">.</span><span class="n">tempBufferData</span> <span class="nf">length</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>  <span class="p">{</span>
+            <span class="n">NSMutableData</span> <span class="o">*</span><span class="n">muData</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableData</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithData</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">tempBufferData</span><span class="p">];</span>
+           <span class="p">[</span><span class="n">muData</span> <span class="nf">appendData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+           <span class="p">[</span><span class="n">self</span> <span class="nf">handleStickOrIncomPackage</span><span class="p">:</span><span class="n">muData</span><span class="p">];</span>
+           <span class="n">self</span><span class="p">.</span><span class="n">tempBufferData</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+     <span class="p">}</span> <span class="k">else</span><span class="p">{</span>
+           <span class="p">[</span><span class="n">self</span> <span class="nf">handleStickOrIncomPackage</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">#pragma mark handle ----SendMsg----
+</span><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleStickOrIncomPackage</span><span class="o">:</span><span class="p">(</span><span class="n">NSData</span><span class="o">*</span><span class="p">)</span><span class="n">readData</span><span class="p">{</span>
+
+<span class="c1">//验证长度
+</span><span class="k">if</span> <span class="p">(</span><span class="n">readData</span><span class="p">.</span><span class="n">length</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//验证首字节
+</span><span class="n">NSData</span><span class="o">*</span> <span class="n">startData</span> <span class="o">=</span><span class="p">[[</span><span class="n">NSData</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithData</span><span class="p">:[</span><span class="n">readData</span> <span class="nf">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]];</span>
+<span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">numberHNMemcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">start</span><span class="p">,</span> <span class="p">[</span><span class="n">startData</span> <span class="nf">bytes</span><span class="p">],</span> <span class="mi">1</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kt">int</span> <span class="n">cut</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">cutDataByStart</span><span class="p">:</span><span class="n">readData</span><span class="p">];</span>
+    <span class="n">readData</span> <span class="o">=</span> <span class="p">[</span><span class="n">readData</span> <span class="nf">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="n">cut</span><span class="p">,</span> <span class="n">readData</span><span class="p">.</span><span class="n">length</span><span class="o">-</span><span class="n">cut</span><span class="p">)];</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">handleStickOrIncomPackage</span><span class="p">:</span><span class="n">readData</span><span class="p">];</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//验证包内容的长度
+</span><span class="n">NSData</span><span class="o">*</span> <span class="n">bufLen</span> <span class="o">=</span><span class="p">[[</span><span class="n">NSData</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithData</span><span class="p">:[</span><span class="n">readData</span> <span class="nf">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]];</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">numberHNMemcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">len</span><span class="p">,</span> <span class="p">[</span><span class="n">bufLen</span> <span class="nf">bytes</span><span class="p">],</span> <span class="mi">4</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">maxLen</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">+</span> <span class="n">len</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">maxLen</span> <span class="o">&gt;</span> <span class="n">readData</span><span class="p">.</span><span class="n">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">tempBufferData</span> <span class="o">=</span> <span class="n">readData</span><span class="p">;</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">maxLen</span> <span class="o">&lt;=</span> <span class="mi">16</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kt">int</span> <span class="n">cut</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">cutDataByStart</span><span class="p">:</span><span class="n">readData</span><span class="p">];</span>
+    <span class="n">readData</span> <span class="o">=</span> <span class="p">[</span><span class="n">readData</span> <span class="nf">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="n">cut</span><span class="p">,</span> <span class="n">readData</span><span class="p">.</span><span class="n">length</span><span class="o">-</span><span class="n">cut</span><span class="p">)];</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">handleStickOrIncomPackage</span><span class="p">:</span><span class="n">readData</span><span class="p">];</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//验证末尾字节
+</span><span class="n">NSData</span><span class="o">*</span> <span class="n">endData</span> <span class="o">=</span><span class="p">[[</span><span class="n">NSData</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithData</span><span class="p">:[</span><span class="n">readData</span> <span class="nf">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">15</span><span class="o">+</span><span class="n">len</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]];</span>
+<span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">numberHNMemcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">end</span><span class="p">,</span> <span class="p">[</span><span class="n">endData</span> <span class="nf">bytes</span><span class="p">],</span> <span class="mi">1</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">end</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kt">int</span> <span class="n">cut</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">cutDataByStart</span><span class="p">:</span><span class="n">readData</span><span class="p">];</span>
+    <span class="n">readData</span> <span class="o">=</span> <span class="p">[</span><span class="n">readData</span> <span class="nf">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="n">cut</span><span class="p">,</span> <span class="n">readData</span><span class="p">.</span><span class="n">length</span><span class="o">-</span><span class="n">cut</span><span class="p">)];</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">handleStickOrIncomPackage</span><span class="p">:</span><span class="n">readData</span><span class="p">];</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//验证校验码
+</span><span class="n">NSData</span><span class="o">*</span> <span class="n">checkCodeData</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSData</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithData</span><span class="p">:[</span><span class="n">readData</span> <span class="nf">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">len</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)]];</span>
+<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">tmpCheck</span> <span class="o">=</span> <span class="p">[</span><span class="n">checkCodeData</span> <span class="nf">bytes</span><span class="p">];</span>
+
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">check_code</span> <span class="o">=</span> <span class="n">getMsgCheckCode</span><span class="p">(</span><span class="n">tmpCheck</span><span class="p">,</span><span class="n">len</span><span class="o">-</span><span class="mi">5</span><span class="p">);</span>
+
+<span class="n">NSData</span><span class="o">*</span> <span class="n">checkData</span> <span class="o">=</span><span class="p">[[</span><span class="n">NSData</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithData</span><span class="p">:[</span><span class="n">readData</span> <span class="nf">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="n">maxLen</span> <span class="o">-</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]];</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">msg_check_code</span><span class="p">;</span>
+<span class="n">numberHNMemcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">msg_check_code</span><span class="p">,</span> <span class="p">[</span><span class="n">checkData</span> <span class="nf">bytes</span><span class="p">],</span> <span class="mi">4</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">check_code</span> <span class="o">!=</span> <span class="n">msg_check_code</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"check code is error"</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">cut</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">cutDataByStart</span><span class="p">:</span><span class="n">readData</span><span class="p">];</span>
+    <span class="n">readData</span> <span class="o">=</span> <span class="p">[</span><span class="n">readData</span> <span class="nf">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="n">cut</span><span class="p">,</span> <span class="n">readData</span><span class="p">.</span><span class="n">length</span><span class="o">-</span><span class="n">cut</span><span class="p">)];</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">handleStickOrIncomPackage</span><span class="p">:</span><span class="n">readData</span><span class="p">];</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//验证消息类型
+</span><span class="n">NSData</span> <span class="o">*</span><span class="n">typeData</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSData</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithData</span><span class="p">:[</span><span class="n">readData</span> <span class="nf">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]];</span>
+<span class="kt">int</span> <span class="n">type</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">numberHNMemcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">type</span><span class="p">,</span> <span class="p">[</span><span class="n">typeData</span> <span class="nf">bytes</span><span class="p">],</span> <span class="mi">2</span><span class="p">);</span>
+
+<span class="n">BHSocketBaseMsg</span> <span class="o">*</span><span class="n">msg</span> <span class="o">=</span> <span class="p">[[</span><span class="n">BHSocketBaseMsg</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">init</span><span class="p">];</span>
+<span class="n">msg</span><span class="p">.</span><span class="n">msg_type</span> <span class="o">=</span> <span class="n">type</span><span class="p">;</span>
+<span class="n">msg</span><span class="p">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span>
+<span class="n">msg</span><span class="p">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">end</span><span class="p">;</span>
+<span class="n">msg</span><span class="p">.</span><span class="n">len</span> <span class="o">=</span> <span class="n">len</span><span class="p">;</span>
+<span class="n">msg</span><span class="p">.</span><span class="n">check_code</span> <span class="o">=</span> <span class="n">check_code</span><span class="p">;</span>
+
+<span class="p">[</span><span class="n">self</span> <span class="nf">handleValidDataWithType</span><span class="p">:</span><span class="n">type</span> <span class="nf">andData</span><span class="p">:</span><span class="n">readData</span> <span class="n">baseMsg</span><span class="o">:</span><span class="n">msg</span><span class="p">];</span>
+
+<span class="n">readData</span> <span class="o">=</span> <span class="p">[</span><span class="n">readData</span> <span class="nf">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="n">maxLen</span><span class="p">,</span> <span class="n">readData</span><span class="p">.</span><span class="n">length</span><span class="o">-</span><span class="n">maxLen</span><span class="p">)];</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">readData</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">readData</span> <span class="nf">length</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">handleStickOrIncomPackage</span><span class="p">:</span><span class="n">readData</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="p">}</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleValidDataWithType</span><span class="o">:</span><span class="p">(</span><span class="n">BHSocketMsgType</span><span class="p">)</span><span class="n">msgType</span> <span class="n">andData</span><span class="o">:</span><span class="p">(</span><span class="n">NSData</span><span class="o">*</span><span class="p">)</span><span class="n">data</span> <span class="n">baseMsg</span><span class="o">:</span><span class="p">(</span><span class="n">BHSocketBaseMsg</span><span class="o">*</span><span class="p">)</span><span class="n">baseMsg</span><span class="p">{</span>
+
+<span class="n">R</span><span class="p">.</span><span class="n">recStatus</span> <span class="o">=</span> <span class="n">BH_Msg_Done</span><span class="p">;</span>
+<span class="k">switch</span> <span class="p">(</span><span class="n">msgType</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">BH_Socket_Type_HeartMsg</span><span class="p">:</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="n">BH_Socket_Type_LoginCallBack</span><span class="p">:</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">handleLoginCallBackMsgWithBaseMsg</span><span class="p">:</span><span class="n">baseMsg</span> <span class="nf">andData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="n">BH_Socket_Type_SendMsgCallBack</span><span class="p">:</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">handleSendMsgCallBackMsgWithBaseMsg</span><span class="p">:</span><span class="n">baseMsg</span> <span class="nf">andData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="n">BH_Socket_Type_RecChatMsg</span><span class="p">:</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">handleRecChatMsgWithBaseMsg</span><span class="p">:</span><span class="n">baseMsg</span> <span class="nf">andData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="n">BH_Socket_Type_KicMsg</span><span class="p">:</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">handleKickMsgWithBaseMsg</span><span class="p">:</span><span class="n">baseMsg</span> <span class="nf">andData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="n">BH_Socket_Type_AuthFail</span><span class="p">:</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">authFail</span><span class="p">];</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">default</span><span class="o">:</span>
+        <span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/04/RSA%E7%AD%BE%E5%90%8D%E8%AE%A4%E8%AF%81/" title="link to RSA签名认证">RSA签名认证</a></h2>
+       <p class="excerpt">RSA签名认证RSA可汗学院第一章 RSA加密RSA加密原理第一章RSA加密原理第二章RSA:1. 加签：用私钥加签，对方用公钥验签（防抵赖，私钥只有自己有！）2. 加密：用对方公钥加密，对方用对应私钥解密（加密） RSA使用“密钥对”对数据进行加密解密，在加密解密前需要先生存公钥（Public Key）和私钥（Private Key）。 公钥(Public key): 用于加密数据. 用于公开, 一般存放在数据提供方, 例如iOS客户端。 私钥(Private key): 用于解密数据....&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-04-21 21:38:32 +0800" class="post-list__meta--date date">2016-04-21</time> &#8226; <span class="post-list__meta--tags tags">iOS开发经验总结</span><a class="btn-border-small" href=/2016/04/RSA%E7%AD%BE%E5%90%8D%E8%AE%A4%E8%AF%81/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/03/iOS%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E6%88%98/" title="link to iOS 数据库实战">iOS 数据库实战</a></h2>
+       <p class="excerpt">经典的数据库服务开发库有一下几种： CoreData 操作较为复杂, MagicalRecord 有着很多的特性,比如可以根据设置在主线程或者子线程中进行操作,方便快捷,能入榜最佳10大开源库自有其独到的地方,会使用 MagicalRecord 需要具备一定的 CoreData 相关知识,本人也只是现学现用,但深知其可以为开发带来的好处,使用数据库的朋友有着如下的一些选择.  1. SQLite3    C函数形式(本人之前做过干嵌入式开发,即使是这样也不推荐使用面向过程毫无对象概念的SQ...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-03-13 18:56:32 +0800" class="post-list__meta--date date">2016-03-13</time> &#8226; <span class="post-list__meta--tags tags">iOS开发经验总结</span><a class="btn-border-small" href=/2016/03/iOS%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E6%88%98/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+  
+    <div id="disqus_thread"></div>
+    <script>
+    
+    var disqus_config = function () {
+        this.page.url = "http://vno.onevcat.com/2016/04/Socket%E9%80%9A%E4%BF%A1/";
+        this.page.identifier = "/2016/04/Socket%E9%80%9A%E4%BF%A1/";
+    };
+
+    var disqus_shortname = 'vno-jekyll';
+    
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>要查看<a href="http://disqus.com/?ref_noscript"> Disqus </a>评论，请启用 JavaScript</noscript>
+    
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">由 <a href="https://jekyllrb.com">Jekyll</a> 于 2016-06-23 生成，感谢 <a href="https://www.digitalocean.com/?refcode=30ed2d146762">Digital Ocean</a> 为本站提供稳定的 VPS 服务</span>
+        <span class="footer__copyright">本站由 <a href="http://Blank_佐毅">@heartmusicbeat.com</a> 创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

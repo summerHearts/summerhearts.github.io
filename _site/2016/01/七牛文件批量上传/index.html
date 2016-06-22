@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>七牛文件批量上传</title>
+  <meta name="description" content="七牛文件批量上传">
+  <meta name="author" content="Wei Wang">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="七牛文件批量上传">
+  <meta name="twitter:description" content="七牛文件批量上传">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="七牛文件批量上传">
+  <meta property="og:description" content="七牛文件批量上传">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+  <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://vno.onevcat.com/2016/01/%E4%B8%83%E7%89%9B%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E4%B8%8A%E4%BC%A0/">
+  <link rel="alternate" type="application/rss+xml" title="Blank_佐毅" href="http://vno.onevcat.com/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 Blank_佐毅 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="Blank_佐毅 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Blank_佐毅" class="blog-button">Blank_佐毅</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">上海方创金融信息服务股份有限公司 iOS高级开发工程师</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">嗨，我是姚亚杰(@Blank_佐毅)，一名来自中国的 iOS 开发者 。现居上海。         个性签名：认知这个世界，找到自我的定位。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="Visit blog" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="" target="_blank" title="My Projects">关于</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+    <a href="http://weibo.com/LoveProgramming" title="@LoveProgramming 的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/summerHearts" title="@summerHearts 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+
+  
+
+  <!-- RSS -->
+  <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+  
+  <!-- Email -->
+  <li class="navigation__item">
+    <a href="mailto:summerHearts@163.com" title="Contact me">
+      <i class='social fa fa-envelope'></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-disabled"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-01-20 18:56:32 +0800" itemprop="datePublished" class="post-meta__date date">2016-01-20</time> &#8226; <span class="post-meta__tags tags">iOS开发经验总结</span>
+    </div>
+    <h1 class="post-title">七牛文件批量上传</h1>
+  </header>
+
+  <section class="post">
+    <p>七牛文件批量上传</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/325120-62d63849a41dc113.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<p>七牛文件上传的过程，如下图所示</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/325120-1ffd25725b1745a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<p>如果你不是很熟悉七牛SDK的集成过程，这里给您一点提示: cocoaPods  podfile  pod ‘Qiniu’  引入七牛SDK文件.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> 过程如下：@1  获取上传文件到七牛的token，即用户权限。
+         @2   引用七牛SDK中文件方法，上传文件，上传成功和失败皆是有回调数据的。
+
+       QNUploadOption *opt = [[QNUploadOption alloc] initWithMime:nil progressHandler:progress params:nil checkCrc:NO cancellationSignal:nil];
+       QNUploadManager *uploadManager = [[QNUploadManager alloc]initWithRecorder:nil];
+       [uploadManager putData:data key:nil token:token complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+        if (info.statusCode == 200 &amp;&amp; resp) {
+            NSString *url;
+                url = [NSString stringWithFormat:@"%@%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"token"], resp[@"key"]];
+
+            if (success) {
+                success(url);
+            }
+        } else {
+            if (failure) {
+                failure();
+            }
+        }
+      } option:opt];
+</code></pre>
+</div>
+
+<p>下边给出批量上传的方法：
+        该类用于接收成功和失败的回调</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>   <span class="cp">#import &lt;Foundation/Foundation.h&gt;
+</span>   <span class="k">@interface</span> <span class="nc">QiNiuUploadHelper</span> <span class="p">:</span> <span class="nc">NSObject</span>
+    <span class="cm">/**
+     *  成功回调
+    */</span>
+   <span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">singleSuccessBlock</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">);</span>
+
+   <span class="cm">/**
+    *  失败回调
+    */</span>
+   <span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">singleFailureBlock</span><span class="p">)();</span>
+
+   <span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">sharedInstance</span><span class="p">;</span>
+   <span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>.m实现方式</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    <span class="cp">#import "QiNiuUploadHelper.h"
+</span>    <span class="k">static</span> <span class="n">QiNiuUploadHelper</span> <span class="o">*</span><span class="n">_sharedInstance</span> <span class="p">;</span>
+
+    <span class="k">@implementation</span> <span class="nc">QiNiuUploadHelper</span>
+
+   <span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">sharedInstance</span> <span class="p">{</span>
+           <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+           <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+                <span class="n">_sharedInstance</span> <span class="o">=</span> <span class="p">[[</span><span class="n">QiNiuUploadHelper</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+           <span class="p">});</span>
+           <span class="k">return</span> <span class="n">_sharedInstance</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="o">-</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">copyWithZone</span><span class="o">:</span><span class="p">(</span><span class="n">NSZone</span> <span class="o">*</span><span class="p">)</span><span class="n">zone</span><span class="p">{</span>
+                <span class="k">return</span> <span class="n">_sharedInstance</span><span class="p">;</span>
+    <span class="p">}</span>
+
+   <span class="o">+</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">allocWithZone</span><span class="o">:</span><span class="p">(</span><span class="k">struct</span> <span class="n">_NSZone</span> <span class="o">*</span><span class="p">)</span><span class="n">zone</span><span class="p">{</span>
+              <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+              <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+                       <span class="n">_sharedInstance</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">allocWithZone</span><span class="p">:</span><span class="n">zone</span><span class="p">];</span>
+              <span class="p">});</span>
+             <span class="k">return</span> <span class="n">_sharedInstance</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="k">@end</span>
+</code></pre>
+</div>
+
+<h1 id="api">批量上传的具体调用方法API</h1>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="cp">#import &lt;Foundation/Foundation.h&gt;
+</span>  <span class="cp">#import &lt;UIKit/UIKit.h&gt;
+</span>  <span class="cp">#import "QiniuSDK.h"
+</span>
+  <span class="k">@interface</span> <span class="nc">QiNiuSystemService</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+  <span class="cm">/**
+    *  上传图片
+    *
+    *  @param image    需要上传的image
+    *  @param progress 上传进度block
+    *  @param success  成功block 返回url地址
+    *  @param failure  失败block
+    */</span>
+  <span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span>
+       <span class="nf">progress</span><span class="p">:(</span><span class="n">QNUpProgressHandler</span><span class="p">)</span><span class="nv">progress</span>
+        <span class="nf">success</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">url</span><span class="p">))</span><span class="nv">success</span>
+        <span class="nf">failure</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">failure</span><span class="p">;</span>
+
+  <span class="cm">/**
+     *   上传多张图片,按队列依次上传
+     *
+     *  @param imageArray 存放image的数字
+     *  @param progress   上传到七牛的进度
+     *  @param success    成功block  返回key
+     *  @param failure    失败block
+     */</span>
+  <span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadImages</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">imageArray</span>
+        <span class="nf">progress</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">CGFloat</span><span class="p">))</span><span class="nv">progress</span>
+         <span class="nf">success</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">))</span><span class="nv">success</span>
+         <span class="nf">failure</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">failure</span><span class="p">;</span>
+
+  <span class="cm">/**
+     *  获取七牛上传token
+     *
+     *  @param success 成功block  返回token
+     *  @param failure 失败block
+     */</span>
+   <span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">qiNiuUploadToken</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">token</span><span class="p">))</span><span class="nv">success</span> <span class="nf">failure</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">failure</span><span class="p">;</span>
+
+  <span class="cm">/**
+     *  获取七牛上传成功的key
+     *
+     *  @param key     上传成功之后返回图片对应的key
+     *  @param success 成功block 返回url地址
+     *  @param failure 失败block
+     */</span>
+  <span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">qiNiuUrlkey</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span> <span class="nf">success</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">url</span><span class="p">))</span><span class="nv">success</span> <span class="nf">failure</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">failure</span><span class="p">;</span>
+
+   <span class="cm">/**
+      *  获取七牛上传成功的成功后服务端返回的url
+      *
+      *  @param keyArray 上传成功之后返回图片对应的key数组
+      *  @param success  成功block 返回url地址数组
+      *  @param failure  失败block
+      */</span>
+ <span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">qiNiuUrlKeyArray</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">keyArray</span> <span class="nf">success</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">array</span><span class="p">))</span><span class="nv">success</span> <span class="nf">failure</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">failure</span><span class="p">;</span>
+
+
+  <span class="cm">/**
+     *  将图片压缩为需要的比例
+     *
+     *  @param  image 需要处理的图片
+     *  @param  size  图片返回大小
+     *
+     *  @return image
+     */</span>
+  <span class="k">+</span><span class="p">(</span><span class="n">UIImage</span><span class="o">*</span><span class="p">)</span><span class="nf">originImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">scaleToSize</span><span class="p">:(</span><span class="n">CGSize</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
+
+  <span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>具体的.m实现：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>   <span class="cp">#import "QiNiuSystemService.h"
+</span>   <span class="cp">#import "QiNiuUploadHelper.h"
+</span>   <span class="cp">#import "HotelRequest.h"
+</span>   <span class="cp">#import "QiniuSDK.h"
+</span>  <span class="k">@implementation</span> <span class="nc">QiNiuSystemService</span>
+
+  <span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">progress</span><span class="p">:(</span><span class="n">QNUpProgressHandler</span><span class="p">)</span><span class="nv">progress</span> <span class="nf">success</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">url</span><span class="p">))</span><span class="nv">success</span> <span class="nf">failure</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">failure</span><span class="p">{</span>
+<span class="p">[</span><span class="n">QiNiuSystemService</span> <span class="nf">getQiniuUploadToken</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">token</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="n">UIImage</span> <span class="o">*</span><span class="n">sizedImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">QiNiuSystemService</span> <span class="nf">OriginImage</span><span class="p">:</span><span class="n">image</span> <span class="nf">scaleToSize</span><span class="p">:</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span> <span class="p">];</span>
+    <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">UIImageJPEGRepresentation</span><span class="p">(</span><span class="n">sizedImage</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">3</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">failure</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">failure</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">QNUploadOption</span> <span class="o">*</span><span class="n">opt</span> <span class="o">=</span> <span class="p">[[</span><span class="n">QNUploadOption</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithMime</span><span class="p">:</span><span class="nb">nil</span> <span class="nf">progressHandler</span><span class="p">:</span><span class="n">progress</span> <span class="n">params</span><span class="o">:</span><span class="nb">nil</span> <span class="n">checkCrc</span><span class="o">:</span><span class="nb">NO</span> <span class="n">cancellationSignal</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="n">QNUploadManager</span> <span class="o">*</span><span class="n">uploadManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">QNUploadManager</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithRecorder</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">uploadManager</span> <span class="nf">putData</span><span class="p">:</span><span class="n">data</span> <span class="nf">key</span><span class="p">:</span><span class="nb">nil</span> <span class="n">token</span><span class="o">:</span><span class="n">token</span> <span class="n">complete</span><span class="o">:^</span><span class="p">(</span><span class="n">QNResponseInfo</span> <span class="o">*</span><span class="n">info</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">resp</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">statusCode</span> <span class="o">==</span> <span class="mi">200</span> <span class="o">&amp;&amp;</span> <span class="n">resp</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">NSString</span> <span class="o">*</span><span class="n">url</span><span class="p">;</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%@%@"</span><span class="p">,</span> <span class="p">[[</span><span class="n">NSUserDefaults</span> <span class="nf">standardUserDefaults</span><span class="p">]</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"token"</span><span class="p">],</span> <span class="n">resp</span><span class="p">[</span><span class="s">@"key"</span><span class="p">]];</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">success</span><span class="p">(</span><span class="n">url</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">failure</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">failure</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="n">option</span><span class="o">:</span><span class="n">opt</span><span class="p">];</span>
+<span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">failure</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">failure</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}];</span>
+<span class="p">}</span>
+
+ <span class="c1">//上传图片
+</span> <span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadImages</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">imageArray</span> <span class="nf">progress</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">CGFloat</span><span class="p">))</span><span class="nv">progress</span> <span class="nf">success</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">))</span><span class="nv">success</span> <span class="nf">failure</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">failure</span><span class="p">{</span>
+<span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+
+<span class="n">__block</span> <span class="kt">float</span> <span class="n">totalProgress</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+<span class="n">__block</span> <span class="kt">float</span> <span class="n">partProgress</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span> <span class="o">/</span> <span class="p">[</span><span class="n">imageArray</span> <span class="nf">count</span><span class="p">];</span>
+<span class="n">__block</span> <span class="n">NSUInteger</span> <span class="n">currentIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">QiNiuUploadHelper</span> <span class="o">*</span><span class="n">uploadHelper</span> <span class="o">=</span> <span class="p">[</span><span class="n">QiNiuUploadHelper</span> <span class="nf">sharedInstance</span><span class="p">];</span>
+<span class="n">__weak</span> <span class="n">typeof</span><span class="p">(</span><span class="n">uploadHelper</span><span class="p">)</span> <span class="n">weakHelper</span> <span class="o">=</span> <span class="n">uploadHelper</span><span class="p">;</span>
+
+<span class="n">uploadHelper</span><span class="p">.</span><span class="n">singleFailureBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">failure</span><span class="p">();</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="n">uploadHelper</span><span class="p">.</span><span class="n">singleSuccessBlock</span>  <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">url</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">array</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+    <span class="n">totalProgress</span> <span class="o">+=</span> <span class="n">partProgress</span><span class="p">;</span>
+    <span class="n">progress</span><span class="p">(</span><span class="n">totalProgress</span><span class="p">);</span>
+    <span class="n">currentIndex</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">array</span> <span class="nf">count</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="n">imageArray</span> <span class="nf">count</span><span class="p">])</span> <span class="p">{</span>
+        <span class="n">success</span><span class="p">([</span><span class="n">array</span> <span class="nf">copy</span><span class="p">]);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">QiNiuSystemService</span> <span class="nf">uploadImage</span><span class="p">:</span><span class="n">imageArray</span><span class="p">[</span><span class="nf">currentIndex</span><span class="p">]</span> <span class="nf">progress</span><span class="p">:</span><span class="nb">nil</span> <span class="n">success</span><span class="o">:</span><span class="n">weakHelper</span><span class="p">.</span><span class="n">singleSuccessBlock</span> <span class="n">failure</span><span class="o">:</span><span class="n">weakHelper</span><span class="p">.</span><span class="n">singleFailureBlock</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="p">[</span><span class="n">QiNiuSystemService</span> <span class="nf">uploadImage</span><span class="p">:</span><span class="n">imageArray</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="nf">progress</span><span class="p">:</span><span class="nb">nil</span> <span class="n">success</span><span class="o">:</span><span class="n">weakHelper</span><span class="p">.</span><span class="n">singleSuccessBlock</span> <span class="n">failure</span><span class="o">:</span><span class="n">weakHelper</span><span class="p">.</span><span class="n">singleFailureBlock</span><span class="p">];</span>
+<span class="p">}</span>
+
+ <span class="c1">//获取七牛的token
+</span><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">qiNiuUploadToken</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">))</span><span class="nv">success</span> <span class="nf">failure</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">failure</span><span class="p">{</span>
+<span class="p">[</span><span class="n">HotelRequest</span>  <span class="nf">requestHotelPicwindinfoManager</span><span class="p">:[</span><span class="n">HttpRequest</span> <span class="nf">requestOperationManager</span><span class="p">]</span>
+                                      <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+                                        <span class="n">NSString</span> <span class="o">*</span> <span class="n">token</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%@"</span><span class="p">,</span><span class="n">responseObject</span><span class="p">[</span><span class="s">@"picwindinfo"</span><span class="p">]];</span>
+                                          <span class="k">if</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="p">{</span>
+                                              <span class="n">success</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
+                                          <span class="p">}</span>
+
+<span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">NSOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">failure</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">failure</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}];</span>
+<span class="p">}</span>
+<span class="c1">// 获取七牛上传成功的key
+</span>
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">qiNiuUrlkey</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span> <span class="nf">success</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">url</span><span class="p">))</span><span class="nv">success</span> <span class="nf">failure</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">failure</span><span class="p">{</span>
+
+<span class="p">[</span><span class="n">HotelRequest</span> <span class="nf">requestHotelSubjectPicPathChangeWithPicpath</span><span class="p">:</span><span class="n">key</span>
+                                                  <span class="nf">manager</span><span class="p">:[</span><span class="n">HttpRequest</span> <span class="nf">requestOperationManager</span><span class="p">]</span>
+                                                  <span class="nl">success:</span><span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+
+                                                      <span class="n">NSString</span> <span class="o">*</span><span class="n">picUrl</span> <span class="o">=</span> <span class="n">responseObject</span><span class="p">[</span><span class="s">@"picurl"</span><span class="p">];</span>
+                                                      <span class="k">if</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="p">{</span>
+                                                          <span class="n">success</span><span class="p">(</span><span class="n">picUrl</span><span class="p">);</span>
+                                                      <span class="p">}</span>
+
+                                                  <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">NSOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+                                                      <span class="k">if</span> <span class="p">(</span><span class="n">failure</span><span class="p">)</span> <span class="p">{</span>
+                                                          <span class="n">failure</span><span class="p">();</span>
+                                                      <span class="p">}</span>
+                                                  <span class="p">}];</span>
+  <span class="p">}</span>
+
+ <span class="c1">// 获取七牛上传成功的成功后服务端返回的url
+</span><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">qiNiuUrlKeyArray</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">keyArray</span> <span class="nf">success</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">array</span><span class="p">))</span><span class="nv">success</span> <span class="nf">failure</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">failure</span><span class="p">{</span>
+<span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">UrlArray</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+
+<span class="n">__block</span> <span class="n">NSUInteger</span> <span class="n">currentIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">QiNiuUploadHelper</span> <span class="o">*</span><span class="n">uploadHelper</span> <span class="o">=</span> <span class="p">[</span><span class="n">QiNiuUploadHelper</span> <span class="nf">sharedInstance</span><span class="p">];</span>
+<span class="n">__weak</span> <span class="n">typeof</span><span class="p">(</span><span class="n">uploadHelper</span><span class="p">)</span> <span class="n">weakHelper</span> <span class="o">=</span> <span class="n">uploadHelper</span><span class="p">;</span>
+
+<span class="n">uploadHelper</span><span class="p">.</span><span class="n">singleFailureBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">failure</span><span class="p">();</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="n">uploadHelper</span><span class="p">.</span><span class="n">singleSuccessBlock</span>  <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">url</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">UrlArray</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+    <span class="n">currentIndex</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">UrlArray</span> <span class="nf">count</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="n">keyArray</span> <span class="nf">count</span><span class="p">])</span> <span class="p">{</span>
+        <span class="n">success</span><span class="p">([</span><span class="n">UrlArray</span> <span class="nf">copy</span><span class="p">]);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">QiNiuSystemService</span> <span class="nf">getQiniuUrlkey</span><span class="p">:</span><span class="n">url</span> <span class="nf">success</span><span class="p">:</span><span class="n">weakHelper</span><span class="p">.</span><span class="n">singleSuccessBlock</span> <span class="n">failure</span><span class="o">:</span><span class="n">weakHelper</span><span class="p">.</span><span class="n">singleFailureBlock</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="p">[</span><span class="n">QiNiuSystemService</span> <span class="nf">getQiniuUrlkey</span><span class="p">:</span><span class="n">keyArray</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="nf">success</span><span class="p">:</span><span class="n">weakHelper</span><span class="p">.</span><span class="n">singleSuccessBlock</span> <span class="n">failure</span><span class="o">:</span><span class="n">weakHelper</span><span class="p">.</span><span class="n">singleFailureBlock</span><span class="p">];</span>
+<span class="p">}</span>
+  <span class="c1">//压缩上传图片的大小比例
+</span><span class="k">+</span> <span class="p">(</span><span class="n">UIImage</span><span class="o">*</span><span class="p">)</span><span class="nf">originImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">scaleToSize</span><span class="p">:(</span><span class="n">CGSize</span><span class="p">)</span><span class="nv">size</span><span class="p">{</span>
+<span class="n">UIGraphicsBeginImageContext</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>  <span class="c1">//size 为CGSize类型，即你所需要的图片尺寸
+</span>
+<span class="p">[</span><span class="n">image</span> <span class="nf">drawInRect</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">)];</span>
+
+<span class="n">UIImage</span><span class="o">*</span> <span class="n">scaledImage</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+
+<span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+
+<span class="k">return</span> <span class="n">scaledImage</span><span class="p">;</span>   <span class="c1">//返回的就是已经改变的图片
+</span><span class="p">}</span>
+</code></pre>
+</div>
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/01/iOS%E9%81%BF%E5%85%8D%E6%BB%A5%E7%94%A8%E5%8D%95%E4%BE%8B/" title="link to iOS避免滥用单例">iOS避免滥用单例</a></h2>
+       <p class="excerpt"> #单例模式：     1: 类只能有一个实例，而且必须从一个为人熟知的访问点对其进行访问。     2: 这个唯一的实例只能通过子类化进行扩展，而且扩展对象不会破坏客户端的代码。      单例模式提供了一个为人熟知的访问点，供客户类为共享资源生成唯一实例，并通过它对共享资源进行访问。      虽然静态的全局对象引用或者类方法也可以提供全局访问点，但是全局对象无法防止类被初始化一次以上，而且类方法也缺少消除耦合的灵活性。      静态全局变量保持着对类的实例的唯一引用，但是当程序中有...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-01-28 18:56:32 +0800" class="post-list__meta--date date">2016-01-28</time> &#8226; <span class="post-list__meta--tags tags">iOS开发经验总结</span><a class="btn-border-small" href=/2016/01/iOS%E9%81%BF%E5%85%8D%E6%BB%A5%E7%94%A8%E5%8D%95%E4%BE%8B/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/01/iOS%E5%B0%8F%E6%8A%80%E5%B7%A7tips/" title="link to iOS小技巧tips">iOS小技巧tips</a></h2>
+       <p class="excerpt">如何判断字符串是无效的数据@implementation NSObject(SOObject)-(BOOL)smk_isNotEmpty{     return !(self == nil           || [self isKindOfClass:[NSNull class]]           || ([self respondsToSelector:@selector(length)]             &amp;&amp; [(NSData *)self length...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-01-15 18:56:32 +0800" class="post-list__meta--date date">2016-01-15</time> &#8226; <span class="post-list__meta--tags tags">iOS开发经验总结</span><a class="btn-border-small" href=/2016/01/iOS%E5%B0%8F%E6%8A%80%E5%B7%A7tips/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+  
+    <div id="disqus_thread"></div>
+    <script>
+    
+    var disqus_config = function () {
+        this.page.url = "http://vno.onevcat.com/2016/01/%E4%B8%83%E7%89%9B%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E4%B8%8A%E4%BC%A0/";
+        this.page.identifier = "/2016/01/%E4%B8%83%E7%89%9B%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E4%B8%8A%E4%BC%A0/";
+    };
+
+    var disqus_shortname = 'vno-jekyll';
+    
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>要查看<a href="http://disqus.com/?ref_noscript"> Disqus </a>评论，请启用 JavaScript</noscript>
+    
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">由 <a href="https://jekyllrb.com">Jekyll</a> 于 2016-06-23 生成，感谢 <a href="https://www.digitalocean.com/?refcode=30ed2d146762">Digital Ocean</a> 为本站提供稳定的 VPS 服务</span>
+        <span class="footer__copyright">本站由 <a href="http://Blank_佐毅">@heartmusicbeat.com</a> 创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>
